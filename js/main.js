@@ -53,7 +53,7 @@ productos.push({id:"4",
  const busqueda = productos.find((el) => el.nombre === buscarProducto)
  console.log(busqueda);
  const filtrarProducto = productos.filter((el) => el.precio < 2000)
- console.log(filtrarProducto);
+ console.log(filtrarProducto); 
 
 
 
