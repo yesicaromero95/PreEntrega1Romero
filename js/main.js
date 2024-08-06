@@ -1,59 +1,60 @@
-let nombreIngresado = prompt("Ingresar nombre")
-alert ("Hola "+ nombreIngresado + ", Bienvenido/a")
-
-function valoresProductos(producto1, producto2) {
-  return producto1 + producto2;
+class producto {
+    constructor(id, nombre, foto, precio, stock){
+        this.id = id
+        this.nombre = nombre
+        this.foto = foto
+        this.precio = precio
+        this.stock = stock
+    }
 }
 
-function valorTotal() {
-  let producto1 = parseInt(prompt("Ingresa el valor del primer producto, por favor"))
-  let producto2 = parseInt(prompt("Ingresa el valor del segundo producto"))
-  let resultado = alert("El valor total de sus productos ingresados es de: " + valoresProductos(producto1, producto2))
-  if (isNaN(producto1) || isNaN(producto2)) {
-    alert ("No se pudo generar la operaciòn");
-  } else {
-    alert ("Operaciòn finalizada")
-  }
+let listaProductos = [
+    new producto(1, "Tronco de brasil", "https://content.elmueble.com/medio/2022/11/10/planta-de-interior-tronco-de-brasil_057150cf_221110101018_1000x1000.jpg", 15000, 10),
+    new producto(2, "Potus","https://www.torontobulkflowers.com/wp-content/uploads/2019/06/hanging_golden_pothos_plants-400x400.jpg",3000,12),
+    new producto(3, "Lazo de amor","https://i.pinimg.com/originals/63/10/94/631094bae471a507f5211aced844089c.jpg",3500,8),
+    new producto(4,"Aloe vera","https://cashpo-design.ru/userfiles/blog/kislorod5.jpg",3000,15),
+    new producto(5,"Monstera","https://mygreenleaf.ae/wp-content/uploads/2024/01/Monstera-Deliciosa.jpg",5000,10),
+    new producto(6,"Palmera de salon","https://www.123planten.nl/media/catalog/product/cache/0dbc0221ed888f9845a12612000d41ec/g/r/grote_areca_kamerplant_palm.jpg",6500,15),
+ ]
 
-  let listaProductos = parseInt(prompt("Ingrese la cantidad de productos"));
+ localStorage.setItem("productos",JSON.stringify(listaProductos))
+//Agrego mi lista de productos al html con DOM
+ const divProductos = document.getElementById("productos")
 
-for (let i = 1; i <= listaProductos; i++) {
-  let producto = prompt("Ingrese el nombre del producto");
-   console.log(`${i}: ${producto}`);
-  }
-}
+ listaProductos.forEach((e)=>{
+     divProductos.innerHTML +=`
+     <div id= "${e.id}">
+        <p>${e.nombre}</p>
+        <img src=${e.foto}>
+        <p>${e.precio}</p>
+        <button id= "btn${e.id}"> Comprar </button>
+    </div>
+     `
+ })
 
-valorTotal();
+ //Agrego evento al boton de comprar
+ let boton = document.querySelector("button")
+ boton.addEventListener("click", ()=>{
+    console.log("le diste clik");
+ })
+ //Paso de objeto a texto
+let productosString = JSON.stringify(listaProductos)
 
-const productos = [
-  {id:"1", 
-   nombre:"menta", 
-   precio:1900, 
-   stock: 10},
-   {id:"2", 
-    nombre:"potus", 
-    precio:3000, 
-    stock: 12},
-    {id:"3", 
-      nombre:"lazo de amor", 
-      precio:2000, 
-      stock: 8},
-]
-console.log (productos);
+//Modo oscuro
 
-productos.push({id:"4", 
-  nombre:"aloe vera", 
-  precio:1000, 
-  stock: 15})
+let boton_modo = document.querySelector("button")
+let body = document.body
 
- console.log (productos);
+let modoUsuario = localStorage.getItem("modo")
+body.className = modoUsuario
 
-  alert ("Lista de productos: \n menta \n potus \n lazo de amor \n aloe vera");
-  let buscarProducto = prompt("Escriba algùn producto de la lista para saber sus datos")
- const busqueda = productos.find((el) => el.nombre === buscarProducto)
- console.log(busqueda);
- const filtrarProducto = productos.filter((el) => el.precio < 2000)
- console.log(filtrarProducto); 
+boton_modo.addEventListener('click',()=> {
+    if (body.className == 'light-mode'){
+        body.className = 'dark-mode'
+    } else {
+        body.className = 'light-mode'
+    }
 
 
-
+    localStorage.setItem("modo",body.className)
+})
